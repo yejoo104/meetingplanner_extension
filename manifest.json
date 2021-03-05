@@ -6,6 +6,11 @@
     "background": {
         "scripts": ["./background.js"]
     },
+    "content_scripts": [{
+        "run-at": "document_end",
+        "matches": ["https://www.when2meet.com/*"],
+        "js": ["content-script.js"]
+    }],
     "permissions": [
         "tabs",
         "https://www.when2meet.com/*"

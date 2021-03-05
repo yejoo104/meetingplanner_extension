@@ -5,5 +5,9 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
                 chrome.tabs.executeScript(null, {file: './foreground.js'}, () => console.log('i injected2'))
             }
         })
+        chrome.tabs.sendMessage(tabId, {message: 'getData'}, response => {
+            console.log(response[55]);
+        });
+        console.log("message sent");
     }
 });

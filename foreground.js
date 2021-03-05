@@ -7,8 +7,8 @@
 }
 
 record.addEventListener('click', () => {
-    var groupgrid = document.querySelector('#GroupGridSlots.GroupGrid');
-    walkTheDOM(groupgrid, print);
+    //var groupgrid = document.querySelector('#GroupGridSlots.GroupGrid');
+    // TODO: gather relevant information on click (currently it does so from backend just on update)
 })
 
 function walkTheDOM(node, func) {
@@ -21,6 +21,3 @@ function walkTheDOM(node, func) {
     }
 };
 
-function print(node) {
-    console.log(node);
-};
