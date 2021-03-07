@@ -8,7 +8,8 @@
 
 record.addEventListener('click', () => {
     //var groupgrid = document.querySelector('#GroupGridSlots.GroupGrid');
-    // TODO: gather relevant information on click (currently it does so from backend just on update)
+    chrome.runtime.sendMessage({message: 'save the record'});
+    // TODO: use JS variables from website in order to parse through availabilities & record them efficiently
 })
 
 function walkTheDOM(node, func) {
