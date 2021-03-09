@@ -13,6 +13,7 @@
     }],
     "permissions": [
         "tabs",
-        "https://www.when2meet.com/*"
+        "https://www.when2meet.com/*",
+        "storage"
     ]
 }

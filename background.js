@@ -5,7 +5,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
         chrome.tabs.get(tabId, current_tab_info => {
             active_tab = tabId;
             if (/^https:\/\/www\.when2meet\.com/.test(current_tab_info.url)) {
-                chrome.tabs.executeScript(null, {file: './foreground.js'}, () => console.log('i injected2'))
+                chrome.tabs.executeScript(null, {file: './foreground.js'}, () => console.log('i injected'))
             }
         })
     }
@@ -14,7 +14,8 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.message === 'save the record'){
         chrome.tabs.sendMessage(active_tab, {message: 'get data'}, data => {
-            console.log(data);
+            chrome.storage.local.set(data);
+            console.log("data saved locally");
         });
     }
 })
