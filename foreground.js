@@ -9,11 +9,7 @@
 record.addEventListener('click', () => {
     //var groupgrid = document.querySelector('#GroupGridSlots.GroupGrid');
     chrome.runtime.sendMessage({message: 'save the record'});
-    // TODO: use JS variables from website in order to parse through availabilities & record them efficiently
-    chrome.storage.local.get(["availableAtSlot", "peopleNames", "peopleIds", "timeOfSlot"], value => {
-        availableAtSlot = value["availableAtSlot"];
-        console.log(availableAtSlot);
-    })
+    // TODO: use JS variables from website in order to parse through availabilities & record them efficiently (update: I think I might just want to do this on the backend)
 })
 
 function walkTheDOM(node, func) {
