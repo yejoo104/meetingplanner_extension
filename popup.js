@@ -2,6 +2,7 @@
 var button = document.getElementById("schedule-form");
 
 button.addEventListener('submit', () => {
+    // Validate Form to make sure inputs make sense
     var min_event = document.getElementById("min_event").value;
     var max_event = document.getElementById("max_event").value;
     

@@ -16,8 +16,15 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         chrome.tabs.sendMessage(active_tab, {message: 'get data'}, data => {
             // TODO: save data in a manner I would like (note: time in current data is in epoch time)
             chrome.storage.local.set(data);
-            console.log(data);
+            console.log(data["timeOfSlot"]);
             console.log("data saved locally");
+            
+            // Convert timeOfSlot (array of all slots in epoch time) into dates array
+            var i;
+            for (i = 0; i < data["timeOfSlot"].length; i++){
+                var date = new Date(data["timeOfSlot"][i] * 1000).toUTCString();
+                console.log(date);
+            }
         });
     }
     if (request.message === 'schedule'){
