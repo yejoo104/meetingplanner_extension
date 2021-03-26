@@ -21,10 +21,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             
             // Convert timeOfSlot (array of all slots in epoch time) into dates array
             var i;
+            var dates = new Set();
             for (i = 0; i < data["timeOfSlot"].length; i++){
-                var date = new Date(data["timeOfSlot"][i] * 1000).toUTCString();
-                console.log(date);
+                var date = new Date(data["timeOfSlot"][i] * 1000);
+                dates.add(date.getUTCFullYear().toString() + ("00" + (date.getUTCMonth() + 1).toString()).slice(-2) + ("00" + date.getUTCDate().toString()).slice(-2));
             }
+            console.log(dates);
         });
     }
     if (request.message === 'schedule'){
