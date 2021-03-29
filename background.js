@@ -27,6 +27,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 dates.add(date.getUTCFullYear().toString() + ("00" + (date.getUTCMonth() + 1).toString()).slice(-2) + ("00" + date.getUTCDate().toString()).slice(-2));
             }
             console.log(dates);
+            
+            // Compute start_time and end_time
+            var start = new Date(data["timeOfSlot"][0] * 1000);
+            var end = new Date(data["timeOfSlot"][data["timeOfSlot"].length - 1] * 1000);
+            var start_time = start.getHours();
+            var end_time = end.getHours() + 1;
+            console.log(start_time);
+            console.log(end_time);
         });
     }
     if (request.message === 'schedule'){
