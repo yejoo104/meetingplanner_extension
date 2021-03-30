@@ -24,7 +24,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             var dates = new Set();
             for (i = 0; i < data["timeOfSlot"].length; i++){
                 var date = new Date(data["timeOfSlot"][i] * 1000);
-                dates.add(date.getUTCFullYear().toString() + ("00" + (date.getUTCMonth() + 1).toString()).slice(-2) + ("00" + date.getUTCDate().toString()).slice(-2));
+                dates.add(date.getFullYear().toString() + ("00" + (date.getMonth() + 1).toString()).slice(-2) + ("00" + date.getDate().toString()).slice(-2));
             }
             console.log(dates);
             
