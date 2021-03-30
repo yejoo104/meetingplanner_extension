@@ -16,17 +16,29 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         chrome.tabs.sendMessage(active_tab, {message: 'get data'}, data => {
             // TODO: save data in a manner I would like (note: time in current data is in epoch time)
             chrome.storage.local.set(data);
-            console.log(data["timeOfSlot"]);
-            console.log("data saved locally");
+            console.log(data["peopleIds"]);
             
-            // Convert timeOfSlot (array of all slots in epoch time) into dates array
+            // Convert data into dates array and slot_dict dictionary
             var i;
+            var j;
             var dates = new Set();
+            var slot_dict = {};
             for (i = 0; i < data["timeOfSlot"].length; i++){
                 var date = new Date(data["timeOfSlot"][i] * 1000);
-                dates.add(date.getFullYear().toString() + ("00" + (date.getMonth() + 1).toString()).slice(-2) + ("00" + date.getDate().toString()).slice(-2));
+                var date_string = date.getFullYear().toString() + ("0" + (date.getMonth() + 1).toString()).slice(-2) + ("0" + date.getDate().toString()).slice(-2) + ("0" + date.getHours().toString()).slice(-2) + ("0" + date.getMinutes().toString()).slice(-2);
+                
+                // dates array
+                dates.add(date_string.slice(0, 8));
+                
+                // slot_dict
+                slot_dict[date_string] = [];
+                for (j = 0; j < data["availableAtSlot"][i].length; j++){
+                    var personId = data["availableAtSlot"][i][j];
+                    slot_dict[date_string].push(data["peopleNames"][data["peopleIds"].indexOf(personId)]);
+                }
             }
             console.log(dates);
+            console.log(slot_dict);
             
             // Compute start_time and end_time
             var start = new Date(data["timeOfSlot"][0] * 1000);
