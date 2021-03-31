@@ -14,10 +14,6 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.message === 'save the record'){
         chrome.tabs.sendMessage(active_tab, {message: 'get data'}, data => {
-            // TODO: save data in a manner I would like (note: time in current data is in epoch time)
-            chrome.storage.local.set(data);
-            console.log(data["peopleIds"]);
-            
             // Convert data into dates array and slot_dict dictionary
             var i;
             var j;
@@ -37,22 +33,21 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                     slot_dict[date_string].push(data["peopleNames"][data["peopleIds"].indexOf(personId)]);
                 }
             }
-            console.log(dates);
-            console.log(slot_dict);
             
             // Compute start_time and end_time
             var start = new Date(data["timeOfSlot"][0] * 1000);
             var end = new Date(data["timeOfSlot"][data["timeOfSlot"].length - 1] * 1000);
             var start_time = start.getHours();
             var end_time = end.getHours() + 1;
-            console.log(start_time);
-            console.log(end_time);
+
+            // Save data
+            chrome.storage.local.set({"slot_dict": slot_dict, "dates": dates, "start_time": start_time, "end_time": end_time});
         });
     }
     if (request.message === 'schedule'){
         console.log('got schedule message');
-        chrome.storage.local.get(['availableAtSlot'], function(result) {
-            console.log(result['availableAtSlot']);
+        chrome.storage.local.get(['slot_dict','dates', 'start_time', 'end_time'], function(result) {
+            console.log(result);
         })
     }
 })
