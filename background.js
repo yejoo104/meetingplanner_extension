@@ -44,10 +44,4 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             chrome.storage.local.set({"slot_dict": slot_dict, "dates": dates, "start_time": start_time, "end_time": end_time});
         });
     }
-    if (request.message === 'schedule'){
-        console.log('got schedule message');
-        chrome.storage.local.get(['slot_dict','dates', 'start_time', 'end_time'], function(result) {
-            console.log(result);
-        })
-    }
 })

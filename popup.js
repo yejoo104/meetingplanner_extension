@@ -19,5 +19,7 @@ button.addEventListener('submit', () => {
         return;
     }
     
-    chrome.runtime.sendMessage({message: 'schedule'});
+    chrome.storage.local.get(['slot_dict','dates', 'start_time', 'end_time'], function(result) {
+        alert(result['end_time']);
+    })
 })
