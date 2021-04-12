@@ -19,7 +19,7 @@ button.addEventListener('submit', () => {
         return;
     }
     
-    chrome.storage.local.get(['slot_dict','dates', 'start_time', 'end_time'], function(result) {
-        alert(result['end_time']);
+    chrome.storage.local.get(['slots', 'slot_dict','dates', 'start_time', 'end_time'], function(result) {
+        alert(result['slots']);
     })
 })

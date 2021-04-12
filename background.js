@@ -18,13 +18,17 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             var i;
             var j;
             var dates = new Set();
+            var slots = [];
             var slot_dict = {};
             for (i = 0; i < data["timeOfSlot"].length; i++){
                 var date = new Date(data["timeOfSlot"][i] * 1000);
                 var date_string = date.getFullYear().toString() + ("0" + (date.getMonth() + 1).toString()).slice(-2) + ("0" + date.getDate().toString()).slice(-2) + ("0" + date.getHours().toString()).slice(-2) + ("0" + date.getMinutes().toString()).slice(-2);
                 
-                // dates array
+                // dates set
                 dates.add(date_string.slice(0, 8));
+                
+                // slots array
+                slots.push(date_string);
                 
                 // slot_dict
                 slot_dict[date_string] = [];
@@ -41,7 +45,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             var end_time = end.getHours() + 1;
 
             // Save data
-            chrome.storage.local.set({"slot_dict": slot_dict, "dates": dates, "start_time": start_time, "end_time": end_time});
+            chrome.storage.local.set({"slots": slots, "slot_dict": slot_dict, "dates": dates, "start_time": start_time, "end_time": end_time});
         });
     }
 })
