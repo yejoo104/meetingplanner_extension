@@ -43,9 +43,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             var end = new Date(data["timeOfSlot"][data["timeOfSlot"].length - 1] * 1000);
             var start_time = start.getHours();
             var end_time = end.getHours() + 1;
-
+            
             // Save data
-            chrome.storage.local.set({"slots": slots, "slot_dict": slot_dict, "dates": dates, "start_time": start_time, "end_time": end_time});
+            chrome.storage.local.set({"slots": slots, "slot_dict": slot_dict, "dates": Array.from(dates), "start_time": start_time, "end_time": end_time});
         });
     }
 })
