@@ -29,7 +29,24 @@ function intersection(setA, setB) {
     return _intersection
 }
 
+function union(setA, setB) {
+    let _union = new Set(setA)
+    for (let elem of setB) {
+        _union.add(elem)
+    }
+    return _union
+}
+
 function modify_slots(meeting_length, interval, slot_dict, dates, start_time, end_time){
+    // modifies the dictionary of slots such that the slot contains information not just about the 30 minute period but about the entire time period of the meeting
+    // (ex) if meeting length is 2 hours, contains info from 2:00-4:00, 2:30-4:30, 3:00-5:00, etc.
+    //@param meeting_length: length of the meeting, in minutes
+    //@param interval: length of one slot
+    //@param slot_dict: dictionary where keys are slots and values are list of names available in that slot
+    //@param dates: list of dates
+    //@param start_time: starting time
+    //@param end_time: ending time
+    //@returns modified_slot_dict: dictionary where keys are slots (indicated by starting time) -- for the length of the meeting_length -- and values are set of names available in that slot
     var modified_slot_dict = {};
     var num_slots = Math.ceil(meeting_length/interval);
     
@@ -65,6 +82,18 @@ function modify_slots(meeting_length, interval, slot_dict, dates, start_time, en
                               
     return modified_slot_dict;
 }
+                              
+function remove_unavailable_slots(slot_dict, min_people, max_people){
+    var people = new Set();
+    
+    for (var key in slot_dict){
+        var length = slot_dict[key].length;
+        if (length < min_people || length > max_people) delete slot_dict[key];
+        else people = union(people, slot_dict[key]);
+    }
+    
+    return {"slot_dict": slot_dict, "people": Array.from(people)};
+}
 
 var button = document.getElementById("schedule-form");
 
@@ -93,6 +122,10 @@ button.addEventListener('submit', () => {
     // Tests (for now)
     chrome.storage.local.get(['slots', 'slot_dict','dates', 'start_time', 'end_time'], function(result) {
         var test = modify_slots(meeting_length, interval, result['slot_dict'], result['dates'], result['start_time'], result['end_time']);
-        alert(test['202105050900']);
+        var test2 = remove_unavailable_slots(test, 1, 100);
+        alert(test2['slot_dict']['202105050900']);
+        alert(test2['slot_dict']['202105051500']);
+        alert(test2['slot_dict']['202105061500']);
+        alert(test2['people']);
     })
 })
