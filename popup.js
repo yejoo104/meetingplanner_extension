@@ -70,24 +70,29 @@ var button = document.getElementById("schedule-form");
 
 button.addEventListener('submit', () => {
     // Validate Form to make sure inputs make sense
-    var min_event = document.getElementById("min_event").value;
-    var max_event = document.getElementById("max_event").value;
+    var min_event = parseInt(document.getElementById("min_event").value);
+    var max_event = parseInt(document.getElementById("max_event").value);
     
     if (min_event && max_event && min_event > max_event) {
         alert("Minimum number of events cannot be bigger than the maximum number of events");
         return;
     }
     
-    var min_people = document.getElementById("min_people").value;
-    var max_people = document.getElementById("max_people").value;
+    var min_people = parseInt(document.getElementById("min_people").value);
+    var max_people = parseInt(document.getElementById("max_people").value);
     
     if (min_people && max_people && min_people > max_people){
         alert("Minimum number of people cannot be bigger than the maximum number of people");
         return;
     }
     
+    // Calculate meeting_length (interval - use 15)
+    var interval = 15;
+    var meeting_length = parseInt(document.getElementById("hours").value) * 60 + parseInt(document.getElementById("minutes").value);
+        
+    // Tests (for now)
     chrome.storage.local.get(['slots', 'slot_dict','dates', 'start_time', 'end_time'], function(result) {
-        var test = modify_slots(45, 15, result['slot_dict'], result['dates'], result['start_time'], result['end_time']);
-        alert(test['202105061600']);
+        var test = modify_slots(meeting_length, interval, result['slot_dict'], result['dates'], result['start_time'], result['end_time']);
+        alert(test['202105050900']);
     })
 })
